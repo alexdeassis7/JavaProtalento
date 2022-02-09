@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Conexion {
 
-	static String db = "nombreDeMiBaseDeDatos";
+	static String db = "protalento";
 	static String login = "root";
 	static String password = "";
 	static String url = "jdbc:mysql://localhost/" + db;
@@ -16,7 +16,7 @@ public class Conexion {
 	public Conexion() {
 		try {
 			// obtenemos el driver para mysql
-			 Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 
 			// obtenemos la conexion
 			conn = DriverManager.getConnection(url, login, password);
@@ -34,8 +34,8 @@ public class Conexion {
 
 	}
 
-	public static void main(String[] args) {
-		Conexion miConexion = new Conexion();
+	public Connection getConnection() {
+		return conn;
 	}
 
 }
