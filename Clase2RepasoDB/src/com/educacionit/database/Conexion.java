@@ -15,7 +15,6 @@ public class Conexion {
 	Connection conn = null;
 
 	public Conexion() {
-		
 	}
 	
 	public Connection getConnection() {

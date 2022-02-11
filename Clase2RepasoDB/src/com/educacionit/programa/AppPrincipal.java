@@ -8,12 +8,9 @@ import com.educacionit.modelos.PersonaVO;
 public class AppPrincipal {
 
 	public static void main(String[] args) {
-
-		PersonaVO p1 = new PersonaVO("Joel", 23, "Ing. Mecanico", 31322132);
-
-		PersonaDAO pDao = new PersonaDAO();
-		pDao.registrarPersona(p1);
-
+		
+		PersonaDAO pdao = new PersonaDAO();
+		
 		int opcionIngresada;
 		do {
 
@@ -22,10 +19,10 @@ public class AppPrincipal {
 			
 			switch (opcionIngresada) {
 			case 1:
-				JOptionPane.showMessageDialog(null, "Ingrese a la opcion 1");
+				pdao.registrarPersona(ObtenerDatos.solicitarDatosPersona());
 				break;
 			case 2:
-				JOptionPane.showMessageDialog(null, "Ingrese a la opcion 2");
+				pdao.eliminarPersona(ObtenerDatos.solicitarIdDePersona());
 				break;
 			}
 
