@@ -9,13 +9,8 @@ public class AppPrincipal {
 
 	public static void main(String[] args) {
 
-//		PersonaVO p1 = new PersonaVO("Alex", 27, "profesor", 112255);
-//
-//		PersonaDAO pdao = new PersonaDAO();
-//
-//		pdao.registrarPersona(p1);
-
 		int opcionIngresada;
+		PersonaDAO pdao = new PersonaDAO();
 
 		do {
 
@@ -24,21 +19,19 @@ public class AppPrincipal {
 
 			switch (opcionIngresada) {
 
-			case 1:
-				JOptionPane.showMessageDialog(null, "ingrese a la opcion 1");
-				// pedir los datos para carga un objeto persona y luego persistirlo
-				// pdao.registrarPersona(p1);
+			case 1:				
+				pdao.registrarPersona(ObtenerDatos.solicitarDatosPersona());
 				break;
-
 			case 2:
-				JOptionPane.showMessageDialog(null, "ingrese a la opcion 2");
-				// pedir un id para borrar un objeto persona (validar que dicho id exista en al
-				// db )
-				// pdao.borrarPersona(1);
+				pdao.eliminarPersona(ObtenerDatos.solicitarIdDePersona());
 				break;
-				
+				//TAREA
 //				un case 3, y la condición sea System.exit(); pa salir no se...
-
+//				1-crear una exception personalizada si la persona que se desea buscar no existe y lanzarla
+//				2-crear el case para actualizar persona con su respectivo metodo en el dao Modificar persona 
+				//UPDATE persona set id = ? , ......
+//				3-crear el case para poder buscar una persona por su id 
+				
 			}
 
 		} while (opcionIngresada != 1 && opcionIngresada != 2);

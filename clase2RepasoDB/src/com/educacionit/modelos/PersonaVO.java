@@ -69,4 +69,12 @@ public class PersonaVO {
 		this.telefonoPersona = telefonoPersona;
 	}
 
+	@Override
+	public String toString() {
+		return "PersonaVO [idPersona=" + idPersona + ", nombrePersona=" + nombrePersona + ", edadPersona=" + edadPersona
+				+ ", profesionPersona=" + profesionPersona + ", telefonoPersona=" + telefonoPersona + "]";
+	}
+	
+	
+
 }
