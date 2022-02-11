@@ -27,7 +27,5 @@ public class AppPrincipal {
 			}
 
 		} while (opcionIngresada != 1 && opcionIngresada != 2);
-
 	}
-
 }
