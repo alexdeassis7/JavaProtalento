@@ -26,7 +26,6 @@ public class PersonaDAO {
 
 			JOptionPane.showMessageDialog(null, "Se ah Registrado Exitosamente a " + miPersona.getNombrePersona(),
 					"Informacion", JOptionPane.INFORMATION_MESSAGE);
-			st.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -42,7 +41,7 @@ public class PersonaDAO {
 		}
 	}
 
-	public void eliminarPersona(Long id) {
+	public void eliminarPersona(Integer id) {
 
 		Conexion conexion = new Conexion();
 		Statement st = null;
@@ -61,8 +60,7 @@ public class PersonaDAO {
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
-				JOptionPane.showConfirmDialog(null,
-						"No se ha eliminado porque el id ingresado es null");
+				JOptionPane.showConfirmDialog(null, "No se ha eliminado porque el id ingresado es null");
 			} finally {
 				try {
 					conexion.getConnection().close();
@@ -75,7 +73,7 @@ public class PersonaDAO {
 		}
 	}
 
-	public boolean validarSiElIdExisteEnLaTablaPersona(Long id) {
+	public boolean validarSiElIdExisteEnLaTablaPersona(Integer id) {
 
 		Conexion conexion = new Conexion();
 		boolean encontrado = false;
@@ -110,36 +108,38 @@ public class PersonaDAO {
 
 		return encontrado;
 	}
-	
-	public static PersonaVO buscarPersona(int id) {
-		
+
+	public PersonaVO buscarPersona(int id) {
+
 		Conexion conexion = new Conexion();
 		String sql = "SELECT * FROM persona WHERE id = ?";
-		PersonaVO personaVO = new PersonaVO();
+		PersonaVO persona = new PersonaVO();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
+
 		try {
 			ps = conexion.getConnection().prepareStatement(sql);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
-			
+
 			if (rs.next()) {
-				personaVO.setIdPersona(rs.getInt(1));
-				personaVO.setNombrePersona(rs.getString(2));
-				personaVO.setEdadPersona(rs.getInt(3));
-				personaVO.setProfesionPersona(rs.getString(4));
-				personaVO.setTelefonoPersona(rs.getInt(5));
+				persona.setIdPersona(rs.getInt(1));
+				persona.setNombrePersona(rs.getString(2));
+				persona.setEdadPersona(rs.getInt(3));
+				persona.setProfesionPersona(rs.getString(4));
+				persona.setTelefonoPersona(rs.getInt(5));
 			} else {
-				personaVO = null;
+				persona = null;
 			}
-				
-			
+
+			JOptionPane.showMessageDialog(null,
+					"Se encontro persona con id: " + id + "\n " + persona,
+					"Informacion", JOptionPane.INFORMATION_MESSAGE);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			JOptionPane.showMessageDialog(null,
-					"Nose se ejecuto validarSiElIdExisteEnLaTablaPersona con el id : " + id);
+			JOptionPane.showMessageDialog(null, "Nose se ejecuto buscarPersona con el id : " + id);
 		} finally {
 			try {
 				conexion.getConnection().close();
@@ -150,12 +150,44 @@ public class PersonaDAO {
 				e.printStackTrace();
 			}
 		}
-		return personaVO;
+		return persona;
 	}
-	
-	public static void main(String[] args) {
-		
-		System.out.println(buscarPersona(1));
+
+	public void actualizarPersona(int id, PersonaVO persona) {
+
+		Conexion conexion = new Conexion();
+		String sql = "UPDATE persona SET nombre = ?, edad = ?, profesion = ?, telefono = ? WHERE id = ?";
+		PreparedStatement ps = null;
+		persona.setIdPersona(id);
+
+		try {
+			ps = conexion.getConnection().prepareStatement(sql);
+			ps.setString(1, persona.getNombrePersona());
+			ps.setInt(2, persona.getEdadPersona());
+			ps.setString(3, persona.getProfesionPersona());
+			ps.setInt(4, persona.getTelefonoPersona());
+			ps.setInt(5, persona.getIdPersona());
+
+			ps.executeUpdate();
+
+			JOptionPane.showMessageDialog(null,
+					"Se ah actualizado correctamente datos de id " + persona.getIdPersona() + "\n " + persona,
+					"Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, "Nose se ejecuto  actualizarPersona para id: " + id);
+		} finally {
+			try {
+				conexion.getConnection().close();
+				ps.close();
+				System.out.println("Se cerro la conexion");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
-	
+
 }

@@ -12,14 +12,11 @@ public class Conexion {
 	static String password = "";
 	static String url = "jdbc:mysql://localhost/" + db;
 	
-	Connection conn = null;
 
-	public Conexion() {
-	}
-	
 	public Connection getConnection() {
 		//obtenemos el driver para mysql
 		// obtenemos la conexion
+		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, password);

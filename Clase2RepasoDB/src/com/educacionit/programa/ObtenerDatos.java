@@ -8,15 +8,15 @@ public class ObtenerDatos {
 
 	static String RegularExpresion = "[+-]?\\d*(\\.\\d+)?";
 
-	public static Long solicitarIdDePersona() {
+	public static int solicitarIdDePersona() {
 
-		String id = JOptionPane.showInputDialog("Ingresa el id de la persona a eliminar:");
+		String id = JOptionPane.showInputDialog("Ingresa el id de la persona:");
 
 		while (!id.matches(RegularExpresion) || id.equals("")) {
 			JOptionPane.showMessageDialog(null, "Error!! necesitamos un id valido");
 			id = JOptionPane.showInputDialog("Ingresa el id de la persona:");
 		}
-		return Long.parseLong(id);
+		return Integer.parseInt(id);
 
 	}
 
