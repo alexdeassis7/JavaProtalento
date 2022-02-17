@@ -3,6 +3,7 @@ package com.educacionit.programa;
 import javax.swing.JOptionPane;
 
 import com.educacionit.dao.PersonaDAO;
+import com.educacionit.exeption.GenericException;
 import com.educacionit.modelos.PersonaVO;
 
 public class AppPrincipal {
@@ -26,7 +27,11 @@ public class AppPrincipal {
 				pdao.eliminarPersona(ObtenerDatos.solicitarIdDePersona());
 				break;
 			case 3:
-				pdao.actualizarPersona(ObtenerDatos.solicitarIdDePersona(), ObtenerDatos.solicitarDatosPersona());
+				try {
+					pdao.actualizarPersona(ObtenerDatos.solicitarIdDePersona(), ObtenerDatos.solicitarDatosPersona());
+				} catch (GenericException e) {
+					e.printStackTrace();
+				}
 				break;
 			case 4:
 				pdao.buscarPersona(ObtenerDatos.solicitarIdDePersona());

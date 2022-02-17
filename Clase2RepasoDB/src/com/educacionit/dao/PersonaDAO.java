@@ -8,6 +8,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 import com.educacionit.database.Conexion;
+import com.educacionit.exeption.GenericException;
 import com.educacionit.modelos.PersonaVO;
 
 public class PersonaDAO {
@@ -44,17 +45,15 @@ public class PersonaDAO {
 	public void eliminarPersona(Integer id) {
 
 		Conexion conexion = new Conexion();
-		Statement st = null;
 
 		if (id != null) {
-			try {
+			try (Statement st = conexion.getConnection().createStatement()) {
 				if (validarSiElIdExisteEnLaTablaPersona(id)) {
-					st = conexion.getConnection().createStatement();
 					st.execute("DELETE FROM persona WHERE id = " + id);
 					JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente", "Informacion",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showConfirmDialog(null,
+					JOptionPane.showMessageDialog(null,
 							"No se ha eliminado porque el id: " + id + "no existe en la base de datos");
 				}
 			} catch (Exception e) {
@@ -64,7 +63,6 @@ public class PersonaDAO {
 			} finally {
 				try {
 					conexion.getConnection().close();
-					st.close();
 					System.out.println("Se cerro la conexion");
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -153,40 +151,46 @@ public class PersonaDAO {
 		return persona;
 	}
 
-	public void actualizarPersona(int id, PersonaVO persona) {
+	public void actualizarPersona(int id, PersonaVO persona) throws GenericException {
 
 		Conexion conexion = new Conexion();
 		String sql = "UPDATE persona SET nombre = ?, edad = ?, profesion = ?, telefono = ? WHERE id = ?";
 		PreparedStatement ps = null;
 		persona.setIdPersona(id);
-
-		try {
-			ps = conexion.getConnection().prepareStatement(sql);
-			ps.setString(1, persona.getNombrePersona());
-			ps.setInt(2, persona.getEdadPersona());
-			ps.setString(3, persona.getProfesionPersona());
-			ps.setInt(4, persona.getTelefonoPersona());
-			ps.setInt(5, persona.getIdPersona());
-
-			ps.executeUpdate();
-
-			JOptionPane.showMessageDialog(null,
-					"Se ah actualizado correctamente datos de id " + persona.getIdPersona() + "\n " + persona,
-					"Informacion", JOptionPane.INFORMATION_MESSAGE);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			JOptionPane.showMessageDialog(null, "Nose se ejecuto  actualizarPersona para id: " + id);
-		} finally {
+		
+		if (validarSiElIdExisteEnLaTablaPersona(id)) {
+			
 			try {
-				conexion.getConnection().close();
-				ps.close();
-				System.out.println("Se cerro la conexion");
+				ps = conexion.getConnection().prepareStatement(sql);
+				ps.setString(1, persona.getNombrePersona());
+				ps.setInt(2, persona.getEdadPersona());
+				ps.setString(3, persona.getProfesionPersona());
+				ps.setInt(4, persona.getTelefonoPersona());
+				ps.setInt(5, persona.getIdPersona());
+				
+				ps.executeUpdate();
+				
+				JOptionPane.showMessageDialog(null,
+						"Se ah actualizado correctamente datos de id " + id + "\n " + persona,
+						"Informacion", JOptionPane.INFORMATION_MESSAGE);
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
+				System.out.println(e.getMessage());
+				JOptionPane.showMessageDialog(null, "Nose se ejecuto  actualizarPersona para id: " + id);
+			} finally {
+				try {
+					conexion.getConnection().close();
+					ps.close();
+					System.out.println("Se cerro la conexion");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
+		} else {
+			throw new GenericException("No existe el id: " + id);
 		}
+		
 
 	}
 
