@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.educacionit</groupId>
+    <artifactId>tutorial_maven</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>com.educacionit</groupId>
+  <artifactId>tutorial_maven_webapp</artifactId>
+  <version>1.0</version>
+  <packaging>war</packaging>
+  <name>tutorial_maven_webapp Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.educacionit</groupId>
+      <artifactId>turorial_maven_jar</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+  </dependencies>
+  <build>
+    <finalName>tutorial_maven_webapp</finalName>
+  </build>
+</project>
